@@ -1,10 +1,17 @@
 # Fitting coherent T1/T2 decay
 
-This project compares measured characteristic-function data with simulations and estimates:
+This project aims to extract cavity T1 and T2 from fitting the decay of a coherent state in time.
+Experimentally, we measure the characteristic function, and we try to match our Master equation simulations. Real, imaginary, or both kinds of data can be used in the fit. This script finds:
 
 - `T1` and `T2` decay times
 - the simulation parameter `alpha`
 - detuning from image rotation
+
+The workflow is quite simple. After extracting the experimental data we fit the first point (where the coherent state has ideally not decayed yet) to a coherent state. Since preparing the state takes some time, even a small detuning causes the characteristic function to rotate in phase space. For this reason, we also extract (by brute force) the angle that better adjusts to the experimental data. 
+
+The next step is to perform a grid search. That is, we try different values of T1 and T2 and measure how much they overlap with the actual data. For each of these points we also find the best angle. This provides an estimate of the detuning and an initial guess for a multi-parameter optimization of T1 and T2.
+
+Finally, using the standard scipy.optimize we fine tune the parameters T1 and T2. In case we already have measured T1 independently, the script can also optimize only over T2.
 
 The main working example is [`Fitting_T1&T2.ipynb`](Fitting_T1%26T2.ipynb). The reusable code is in the `helpers/` folder.
 
@@ -36,5 +43,3 @@ The main working example is [`Fitting_T1&T2.ipynb`](Fitting_T1%26T2.ipynb). The 
 - `helpers/fitting.py` — searches for a good `alpha` and rotation.
 - `helpers/optimizer.py` — refines `T1`, `T2`, and detuning.
 - `helpers/plotting.py` — creates the plots.
-
-The coherent-decay notebook is intentionally excluded from Git by `.gitignore`; use the included `Fitting_T1&T2.ipynb` as the starting point.
