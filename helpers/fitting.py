@@ -51,7 +51,7 @@ def find_best_alpha(
 
             if both:
 
-                sr = rotate(
+                sr_rot = rotate(
                     sim_real,
                     angle,
                     reshape=False,
@@ -59,7 +59,7 @@ def find_best_alpha(
                     mode="nearest",
                 )
 
-                si = rotate(
+                si_rot = rotate(
                     sim_imag,
                     angle,
                     reshape=False,
@@ -69,18 +69,18 @@ def find_best_alpha(
 
                 sr, _, _ = affine_fit(
                     exp_real,
-                    sr,
+                    sr_rot,
                     mask,
                 )
 
                 si, _, _ = affine_fit(
                     exp_imag,
-                    si,
+                    si_rot,
                     mask,
                 )
 
-                diff_real = exp_real[mask] - sr[mask]
-                diff_imag = exp_imag[mask] - si[mask]
+                diff_real = sr[mask] - sr_rot[mask]
+                diff_imag = si[mask] - si_rot[mask]
 
                 cost = 0.5 * (
                     np.sqrt(np.mean(diff_real**2))
@@ -90,7 +90,7 @@ def find_best_alpha(
 
             else:
 
-                s = rotate(
+                s_rot = rotate(
                     sim_img,
                     angle,
                     reshape=False,
@@ -100,11 +100,11 @@ def find_best_alpha(
 
                 s, _, _ = affine_fit(
                     exp_img,
-                    s,
+                    s_rot,
                     mask,
                 )
 
-                diff = exp_img[mask] - s[mask]
+                diff = s[mask] - s_rot[mask]
 
                 cost = np.sqrt(
                     np.mean(diff**2)
