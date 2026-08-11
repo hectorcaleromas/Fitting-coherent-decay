@@ -45,7 +45,10 @@ def find_best_alpha(
             sim_real = sim[0][0]
             sim_imag = sim[1][0]
         else:
-            sim_img = sim
+            # ``simulate`` returns one image per requested decay time.  This
+            # alpha fit uses only the first decay time, so select its 2-D
+            # image before applying the 2-D boolean mask.
+            sim_img = sim[0]
 
         for angle in rotation_values:
 
