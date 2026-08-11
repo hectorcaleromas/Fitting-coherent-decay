@@ -134,7 +134,15 @@ def compare_experiment_simulation(exp_data, sim_data, x_list, y_list, mask,
                 fitted, _, _ = affine_fit(e, s, mask); displayed = s; overlap = correlation(fitted, s, mask)
             images = (fitted, displayed, fitted - displayed)
             for j, image in enumerate(images):
-                im = axes[i, j].pcolormesh(x_list[i], y_list[i], image, shading="auto", cmap="bwr")
+                im = axes[i, j].pcolormesh(
+                    x_list[i],
+                    y_list[i],
+                    image,
+                    shading="auto",
+                    cmap="bwr",
+                    vmin=-1,
+                    vmax=1,
+                )
                 axes[i, j].set_aspect("equal"); plt.colorbar(im, ax=axes[i, j])
             axes[i, 1].set_title(f"Simulation (overlap={overlap:.3f})")
         fig.suptitle(label or "Experiment vs simulation"); fig.tight_layout(); plt.show()

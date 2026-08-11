@@ -8,6 +8,8 @@ def plot_characteristic_functions(
     y_list,
     decay_times,
     title="Characteristic Functions",
+    vmin=None,
+    vmax=None,
 ):
 
     n = len(charfuncs)
@@ -35,6 +37,8 @@ def plot_characteristic_functions(
             charfuncs[i],
             shading="auto",
             cmap="bwr",
+            vmin=vmin,
+            vmax=vmax,
         )
 
         ax.axvline(
